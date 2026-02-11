@@ -1,0 +1,1310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ali Shaikh | Backend Developer Portfolio</title>
+    <meta name="description" content="Ali Shaikh - Aspiring Backend Developer specializing in Python, FastAPI, PostgreSQL, and REST API development.">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕷️</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        :root {
+            --primary: #e72020;
+            --primary-dark: #9a1316;
+            --secondary: #4f6793;
+            --background: #0a0a0f;
+            --background-light: #121218;
+            --foreground: #f5f5f5;
+            --muted: #a0a0a0;
+            --border: #2a2a35;
+            --card: #15151d;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background);
+            color: var(--foreground);
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        /* Typography */
+        h1, h2, h3 {
+            font-family: 'Bebas Neue', sans-serif;
+            letter-spacing: 0.05em;
+        }
+        .section-title {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, var(--foreground), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+        .navbar.scrolled {
+            background: rgba(10, 10, 15, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.75rem;
+            letter-spacing: 0.1em;
+            text-decoration: none;
+        }
+        .logo span:first-child {
+            color: var(--primary);
+        }
+        .logo span:last-child {
+            color: var(--foreground);
+        }
+        .nav-links {
+            display: flex;
+            gap: 0.5rem;
+            list-style: none;
+        }
+        .nav-links a {
+            color: var(--muted);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        .nav-links a:hover {
+            color: var(--foreground);
+            background: rgba(231, 32, 32, 0.1);
+        }
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--foreground);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(231, 32, 32, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 50%, rgba(79, 103, 147, 0.1) 0%, transparent 50%),
+                var(--background);
+        }
+        .hero-content {
+            text-align: center;
+            max-width: 800px;
+            padding: 2rem;
+            position: relative;
+            z-index: 10;
+        }
+        .badge {
+            display: inline-block;
+            padding: 0.5rem 1.25rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.875rem;
+            color: var(--primary);
+            border: 1px solid rgba(231, 32, 32, 0.3);
+            border-radius: 50px;
+            background: rgba(231, 32, 32, 0.1);
+            animation: fadeUp 0.6s ease forwards;
+        }
+        .hero h1 {
+            font-size: 5rem;
+            margin-bottom: 1.5rem;
+            animation: fadeUp 0.6s ease 0.1s forwards;
+            opacity: 0;
+        }
+        .hero h1 .first-name {
+            color: var(--foreground);
+        }
+        .hero h1 .last-name {
+            color: var(--primary);
+            text-shadow: 0 0 40px rgba(231, 32, 32, 0.5);
+          
+        }
+        .hero-description {
+            font-size: 1.125rem;
+            color: var(--muted);
+            margin-bottom: 1rem;
+            max-width: 650px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: fadeUp 0.6s ease 0.2s forwards;
+            opacity: 0;
+        }
+        .hero-description .highlight-python {
+            color: var(--secondary);
+            font-weight: 600;
+        }
+        .hero-description .highlight-fastapi {
+            color: var(--primary);
+            font-weight: 600;
+        }
+        .hero-subdesc {
+            color: var(--muted);
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: fadeUp 0.6s ease 0.3s forwards;
+            opacity: 0;
+        }
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            animation: fadeUp 0.6s ease 0.4s forwards;
+            opacity: 0;
+        }
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--card);
+            color: var(--foreground);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .social-links a:hover {
+            background: rgba(231, 32, 32, 0.2);
+            color: var(--primary);
+            transform: scale(1.1);
+        }
+        .scroll-indicator {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.875rem;
+            animation: fadeUp 0.6s ease 0.5s forwards;
+            opacity: 0;
+        }
+        .scroll-indicator span {
+            margin-bottom: 0.5rem;
+        }
+        .scroll-indicator svg {
+            animation: bounce 2s infinite;
+        }
+        /* Spider Web Decorations */
+        .spider-web {
+            position: absolute;
+            opacity: 0.1;
+            pointer-events: none;
+        }
+        .spider-web.top-left {
+            top: 0;
+            left: 0;
+            width: 250px;
+            height: 250px;
+        }
+        .spider-web.top-right {
+            top: 0;
+            right: 0;
+            width: 200px;
+            height: 200px;
+            transform: rotate(90deg);
+        }
+        .spider-web.bottom-left {
+            bottom: 0;
+            left: 0;
+            width: 200px;
+            height: 200px;
+            transform: rotate(-90deg);
+        }
+        .spider-web.bottom-right {
+            bottom: 0;
+            right: 0;
+            width: 180px;
+            height: 180px;
+            transform: rotate(180deg);
+        }
+        /* Skills Section */
+        .skills {
+            padding: 6rem 0;
+            position: relative;
+            background: linear-gradient(180deg, transparent, rgba(21, 21, 29, 0.5), transparent);
+        }
+        .skills .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        .skills .section-header p {
+            color: var(--muted);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .skill-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        .skill-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 12px;
+            padding: 1px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .skill-card:hover::before {
+            opacity: 1;
+        }
+        .skill-card:hover {
+            transform: translateY(-5px);
+        }
+        .skill-card:nth-child(odd) {
+            transform: translateY(20px);
+        }
+        .skill-card:nth-child(odd):hover {
+            transform: translateY(15px);
+        }
+        .skill-card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.25rem;
+        }
+        .skill-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .skill-icon.primary {
+            background: rgba(231, 32, 32, 0.2);
+            color: var(--primary);
+        }
+        .skill-icon.secondary {
+            background: rgba(79, 103, 147, 0.2);
+            color: var(--secondary);
+        }
+        .skill-card h3 {
+            font-size: 1.5rem;
+        }
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .skill-tag {
+            padding: 0.375rem 0.75rem;
+            background: rgba(231, 32, 32, 0.1);
+            border: 1px solid rgba(231, 32, 32, 0.2);
+            border-radius: 6px;
+            font-size: 0.8rem;
+            color: var(--foreground);
+            transition: all 0.3s ease;
+        }
+        .skill-tag:hover {
+            background: rgba(231, 32, 32, 0.2);
+            border-color: var(--primary);
+        }
+        /* Education Section */
+        .education {
+            padding: 6rem 0;
+            position: relative;
+        }
+        .education .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        .education .section-header p {
+            color: var(--muted);
+        }
+        .timeline {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: linear-gradient(180deg, transparent, var(--border), transparent);
+        }
+        .timeline-item {
+            display: flex;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+        .timeline-item:nth-child(odd) {
+            flex-direction: row;
+        }
+        .timeline-item:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--primary);
+            box-shadow: 0 0 20px rgba(231, 32, 32, 0.5);
+            z-index: 10;
+        }
+        .timeline-content {
+            width: calc(50% - 50px);
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        .timeline-content::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 12px;
+            padding: 1px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .timeline-content:hover::before {
+            opacity: 1;
+        }
+        .timeline-content:hover {
+            transform: translateY(-5px);
+        }
+        .timeline-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+        .timeline-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .timeline-icon.primary {
+            background: rgba(231, 32, 32, 0.2);
+            color: var(--primary);
+        }
+        .timeline-icon.secondary {
+            background: rgba(79, 103, 147, 0.2);
+            color: var(--secondary);
+        }
+        .timeline-content h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.25rem;
+        }
+        .timeline-content .degree {
+            color: var(--primary);
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        .timeline-content .description {
+            color: var(--muted);
+            font-size: 0.875rem;
+        }
+        .current-badge {
+            display: inline-block;
+            margin-top: 0.75rem;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.75rem;
+            color: var(--primary);
+            background: rgba(231, 32, 32, 0.1);
+            border: 1px solid rgba(231, 32, 32, 0.3);
+            border-radius: 50px;
+        }
+        /* Projects Section */
+        .projects {
+            padding: 6rem 0;
+            position: relative;
+            background: linear-gradient(180deg, transparent, rgba(21, 21, 29, 0.5), transparent);
+            overflow: hidden;
+        }
+        .projects .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        .projects .section-header p {
+            color: var(--muted);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .project-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .project-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 12px;
+            padding: 1px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .project-card:hover::before {
+            opacity: 1;
+        }
+        .project-card:hover {
+            transform: translateY(-5px);
+        }
+        .project-card:hover .project-icon {
+            transform: scale(1.1);
+        }
+        .project-header {
+            display: flex;
+            gap: 1rem;
+            padding: 1.5rem;
+        }
+        .project-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            background: rgba(231, 32, 32, 0.2);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: transform 0.3s ease;
+        }
+        .project-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s ease;
+        }
+        .project-card:hover .project-info h3 {
+            color: var(--primary);
+        }
+        .project-info p {
+            color: var(--muted);
+            font-size: 0.875rem;
+            line-height: 1.6;
+        }
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            padding: 0 1.5rem 1rem;
+        }
+        .project-tag {
+            padding: 0.25rem 0.5rem;
+            background: rgba(79, 103, 147, 0.1);
+            color: var(--secondary);
+            font-size: 0.75rem;
+            border-radius: 4px;
+        }
+        .project-footer {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid var(--border);
+            background: rgba(21, 21, 29, 0.3);
+        }
+        .project-footer a {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: color 0.3s ease;
+        }
+        .project-footer a:hover {
+            color: var(--primary);
+        }
+        .view-all-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 3rem;
+            padding: 0.875rem 1.5rem;
+            background: rgba(231, 32, 32, 0.1);
+            border: 1px solid rgba(231, 32, 32, 0.3);
+            color: var(--primary);
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        .view-all-btn:hover {
+            background: rgba(231, 32, 32, 0.2);
+            transform: scale(1.05);
+        }
+        /* Contact Section */
+        .contact {
+            padding: 6rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+        .contact .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        .contact .section-header p {
+            color: var(--muted);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        .contact-card {
+            max-width: 700px;
+            margin: 0 auto;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2.5rem;
+            position: relative;
+        }
+        .contact-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 16px;
+            padding: 1px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+        }
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(21, 21, 29, 0.5);
+            border-radius: 8px;
+            text-decoration: none;
+            color: inherit;
+            border: 1px solid transparent;
+            transition: all 0.3s ease;
+        }
+        .contact-item:hover {
+            background: rgba(231, 32, 32, 0.1);
+            border-color: rgba(231, 32, 32, 0.3);
+        }
+        .contact-item:hover .contact-icon {
+            transform: scale(1.1);
+        }
+        .contact-item:hover .contact-value {
+            color: var(--primary);
+        }
+        .contact-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 8px;
+            background: rgba(231, 32, 32, 0.2);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+        }
+        .contact-label {
+            font-size: 0.8rem;
+            color: var(--muted);
+        }
+        .contact-value {
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .contact-location {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+        /* Footer */
+        .footer {
+            padding: 2rem 0;
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+        .footer p {
+            color: var(--muted);
+            font-size: 0.875rem;
+        }
+        .footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+        .footer .heart {
+            color: var(--primary);
+            animation: pulse 1s infinite;
+        }
+        /* Animations */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(10, 10, 15, 0.98);
+                flex-direction: column;
+                padding: 1rem;
+                border-top: 1px solid var(--border);
+            }
+            .nav-links.active {
+                display: flex;
+            }
+            .mobile-menu-btn {
+                display: block;
+            }
+            .hero h1 {
+                font-size: 3rem;
+            }
+            .hero-description {
+                font-size: 1rem;
+            }
+            .skills-grid,
+            .projects-grid,
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+            .skill-card:nth-child(odd) {
+                transform: none;
+            }
+            .skill-card:nth-child(odd):hover {
+                transform: translateY(-5px);
+            }
+            .timeline::before {
+                left: 20px;
+            }
+            .timeline-item,
+            .timeline-item:nth-child(even) {
+                flex-direction: row;
+            }
+            .timeline-dot {
+                left: 20px;
+            }
+            .timeline-content {
+                width: calc(100% - 60px);
+                margin-left: 50px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <a href="#" class="logo">
+                <span>ALI </span><span>SHAIKH</span>    
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#about">About</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#education">Education</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+        </div>
+    </nav>
+    <!-- Hero Section -->
+    <section id="about" class="hero">
+        <!-- Spider Web Decorations -->
+        <svg class="spider-web top-left" viewBox="0 0 200 200" fill="none">
+            <line x1="0" y1="0" x2="200" y2="0" stroke="currentColor" stroke-width="1"/>
+            <line x1="0" y1="0" x2="173" y2="100" stroke="currentColor" stroke-width="1"/>
+            <line x1="0" y1="0" x2="100" y2="173" stroke="currentColor" stroke-width="1"/>
+            <line x1="0" y1="0" x2="0" y2="200" stroke="currentColor" stroke-width="1"/>
+            <path d="M 0 40 Q 24 24 40 0" stroke="currentColor" stroke-width="1" fill="none"/>
+            <path d="M 0 80 Q 48 48 80 0" stroke="currentColor" stroke-width="1" fill="none"/>
+            <path d="M 0 120 Q 72 72 120 0" stroke="currentColor" stroke-width="1" fill="none"/>
+            <path d="M 0 160 Q 96 96 160 0" stroke="currentColor" stroke-width="1" fill="none"/>
+        </svg>
+        <svg class="spider-web top-right" viewBox="0 0 200 200" fill="none">
+            <line x1="0" y1="0" x2="200" y2="0" stroke="currentColor" stroke-width="1"/>
+            <line x1="0" y1="0" x2="173" y2="100" stroke="currentColor" stroke-width="1"/>
+            <line x1="0" y1="0" x2="100" y2="173" stroke="currentColor" stroke-width="1"/>
+            <line x1="0" y1="0" x2="0" y2="200" stroke="currentColor" stroke-width="1"/>
+            <path d="M 0 40 Q 24 24 40 0" stroke="currentColor" stroke-width="1" fill="none"/>
+            <path d="M 0 80 Q 48 48 80 0" stroke="currentColor" stroke-width="1" fill="none"/>
+            <path d="M 0 120 Q 72 72 120 0" stroke="currentColor" stroke-width="1" fill="none"/>
+            <path d="M 0 160 Q 96 96 160 0" stroke="currentColor" stroke-width="1" fill="none"/>
+        </svg>
+        <div class="hero-content">
+            <span class="badge">🕷️ Backend Developer</span>
+            <h1>
+                <span class="first-name">ALI</span>
+                <span class="last-name">SHAIKH</span>
+                <span class="last-name"> - (Afridi)</span>
+            </h1>
+            <p class="hero-description">
+                Aspiring Backend Developer currently building a strong foundation in
+                <span class="highlight-python">Python</span> and
+                <span class="highlight-fastapi">FastAPI</span>. Actively learning HTTP, REST API design,
+                request lifecycle, and backend architecture concepts.
+            </p>
+            <p class="hero-subdesc">
+                Gaining hands-on practice with SQLAlchemy, PostgreSQL, dependency injection,
+                async programming, and API testing. Focused on writing clean code and
+                progressing toward production-ready backend development.
+            </p>
+            <div class="social-links">
+                <a href="https://github.com/Alishaikh-dev" target="_blank" rel="noopener noreferrer" title="GitHub">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/>
+                        <path d="M9 18c-4.51 2-5-2-7-2"/>
+                    </svg>
+                </a>
+                <a href="https://www.linkedin.com/in/ali-shaikh-polymath/" target="_blank" rel="noopener noreferrer" title="LinkedIn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+                        <rect width="4" height="12" x="2" y="9"/>
+                        <circle cx="4" cy="4" r="2"/>
+                    </svg>
+                </a>
+                <a href="mailto:shaikhali88123@gmail.com" title="Email">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect width="20" height="16" x="2" y="4" rx="2"/>
+                        <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+                    </svg>
+                </a>
+                <a href="tel:8378986244" title="Phone">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                    </svg>
+                </a>
+            </div>
+            <a href="#skills" class="scroll-indicator">
+                <span>Scroll to explore</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m6 9 6 6 6-6"/>
+                </svg>
+            </a>
+        </div>
+    </section>
+    <!-- Skills Section -->
+    <section id="skills" class="skills">
+        <svg class="spider-web bottom-right" viewBox="0 0 200 200" fill="none">
+            <line x1="0" y1="0" x2="200" y2="0" stroke="currentColor" stroke-width="1"/>
+            <line x1="0" y1="0" x2="173" y2="100" stroke="currentColor" stroke-width="1"/>
+            <line x1="0" y1="0" x2="100" y2="173" stroke="currentColor" stroke-width="1"/>
+            <line x1="0" y1="0" x2="0" y2="200" stroke="currentColor" stroke-width="1"/>
+            <path d="M 0 40 Q 24 24 40 0" stroke="currentColor" stroke-width="1" fill="none"/>
+            <path d="M 0 80 Q 48 48 80 0" stroke="currentColor" stroke-width="1" fill="none"/>
+            <path d="M 0 120 Q 72 72 120 0" stroke="currentColor" stroke-width="1" fill="none"/>
+            <path d="M 0 160 Q 96 96 160 0" stroke="currentColor" stroke-width="1" fill="none"/>
+        </svg>
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Skills & Proficiencies</h2>
+                <p>Building expertise across the backend development stack</p>
+            </div>
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <div class="skill-card-header">
+                        <div class="skill-icon primary">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="16 18 22 12 16 6"/>
+                                <polyline points="8 6 2 12 8 18"/>
+                            </svg>
+                        </div>
+                        <h3>Technical Skills</h3>
+                    </div>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">FastAPI</span>
+                        <span class="skill-tag">REST APIs</span>
+                        <span class="skill-tag">PostgreSQL</span>
+                        <span class="skill-tag">SQL</span>
+                        <span class="skill-tag">JWT Authentication</span>
+                        <span class="skill-tag">OAuth2</span>
+                        <span class="skill-tag">Git</span>
+                    </div>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-card-header">
+                        <div class="skill-icon secondary">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <ellipse cx="12" cy="5" rx="9" ry="3"/>
+                                <path d="M3 5V19A9 3 0 0 0 21 19V5"/>
+                                <path d="M3 12A9 3 0 0 0 21 12"/>
+                            </svg>
+                        </div>
+                        <h3>Software & Web Development</h3>
+                    </div>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Backend API Development</span>
+                        <span class="skill-tag">Database Design</span>
+                        <span class="skill-tag">Authentication & Authorization</span>
+                        <span class="skill-tag">API Testing</span>
+                    </div>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-card-header">
+                        <div class="skill-icon primary">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"/>
+                                <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/>
+                                <path d="M2 12h20"/>
+                            </svg>
+                        </div>
+                        <h3>Languages</h3>
+                    </div>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Hindi — Fluent</span>
+                        <span class="skill-tag">English — Intermediate</span>
+                        <span class="skill-tag">Marathi — Intermediate</span>
+                    </div>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-card-header">
+                        <div class="skill-icon secondary">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                                <circle cx="9" cy="7" r="4"/>
+                                <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                            </svg>
+                        </div>
+                        <h3>Soft Skills</h3>
+                    </div>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Problem Solving</span>
+                        <span class="skill-tag">Clear Communication</span>
+                        <span class="skill-tag">Team Collaboration</span>
+                        <span class="skill-tag">Time Management</span>
+                        <span class="skill-tag">Continuous Learning</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Education Section -->
+    <section id="education" class="education">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Education</h2>
+                <p>Academic journey and achievements</p>
+            </div>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-header">
+                            <div class="timeline-icon primary">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/>
+                                    <path d="M22 10v6"/>
+                                    <path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3>Dr. P.A Inamdar University, Pune</h3>
+                                <p class="degree">Bachelor of Computer Applications (BCA)</p>
+                                <p class="description">Completed first-year coursework in Computer Applications and Programming Fundamentals.</p>
+                                <span class="current-badge">Currently Pursuing</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-header">
+                            <div class="timeline-icon secondary">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526"/>
+                                    <circle cx="12" cy="8" r="6"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3>Moledina Junior College</h3>
+                                <p class="degree">11th - 12th Grade</p>
+                                <p class="description">Top 3 Rank</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-header">
+                            <div class="timeline-icon secondary">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526"/>
+                                    <circle cx="12" cy="8" r="6"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3>MES Boys High School</h3>
+                                <p class="degree">10th Grade</p>
+                                <p class="description">Top 3 Rank</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Projects Section -->
+    <section id="projects" class="projects">
+        <svg class="spider-web top-left" viewBox="0 0 200 200" fill="none">
+            <line x1="0" y1="0" x2="200" y2="0" stroke="currentColor" stroke-width="1"/>
+            <line x1="0" y1="0" x2="173" y2="100" stroke="currentColor" stroke-width="1"/>
+            <line x1="0" y1="0" x2="100" y2="173" stroke="currentColor" stroke-width="1"/>
+            <line x1="0" y1="0" x2="0" y2="200" stroke="currentColor" stroke-width="1"/>
+            <path d="M 0 40 Q 24 24 40 0" stroke="currentColor" stroke-width="1" fill="none"/>
+            <path d="M 0 80 Q 48 48 80 0" stroke="currentColor" stroke-width="1" fill="none"/>
+            <path d="M 0 120 Q 72 72 120 0" stroke="currentColor" stroke-width="1" fill="none"/>
+            <path d="M 0 160 Q 96 96 160 0" stroke="currentColor" stroke-width="1" fill="none"/>
+        </svg>
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Projects</h2>
+                <p>Real-world applications showcasing backend development skills</p>
+            </div>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-header">
+                        <div class="project-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="m21 2-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0 3 3L22 7l-3-3m-3.5 3.5L19 4"/>
+                            </svg>
+                        </div>
+                        <div class="project-info">
+                            <h3>BirdBox Auth</h3>
+                            <p>A secure authentication system built with FastAPI, featuring JWT tokens, OAuth2 integration, and robust user session management.</p>
+                        </div>
+                    </div>
+                    <div class="project-tags">
+                        <span class="project-tag">FastAPI</span>
+                        <span class="project-tag">JWT</span>
+                        <span class="project-tag">OAuth2</span>
+                        <span class="project-tag">Python</span>
+                    </div>
+                    <div class="project-footer">
+                        <a href="https://github.com/Alishaikh-dev/birdbox-auth" target="_blank" rel="noopener noreferrer">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/>
+                                <path d="M9 18c-4.51 2-5-2-7-2"/>
+                            </svg>
+                            <span>View on GitHub</span>
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                                <polyline points="15 3 21 3 21 9"/>
+                                <line x1="10" x2="21" y1="14" y2="3"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-header">
+                        <div class="project-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect width="18" height="11" x="3" y="11" rx="2" ry="2"/>
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                            </svg>
+                        </div>
+                        <div class="project-info">
+                            <h3>Bank of Spain Secure API</h3>
+                            <p>A secure banking API implementation with advanced authentication, encryption, and secure transaction handling.</p>
+                        </div>
+                    </div>
+                    <div class="project-tags">
+                        <span class="project-tag">API Security</span>
+                        <span class="project-tag">FastAPI</span>
+                        <span class="project-tag">PostgreSQL</span>
+                        <span class="project-tag">Encryption</span>
+                    </div>
+                    <div class="project-footer">
+                        <a href="https://github.com/Alishaikh-dev/Bank-of-Spain-Secure-api" target="_blank" rel="noopener noreferrer">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/>
+                                <path d="M9 18c-4.51 2-5-2-7-2"/>
+                            </svg>
+                            <span>View on GitHub</span>
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                                <polyline points="15 3 21 3 21 9"/>
+                                <line x1="10" x2="21" y1="14" y2="3"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div style="text-align: center;">
+                <a href="https://github.com/Alishaikh-dev?tab=repositories" target="_blank" rel="noopener noreferrer" class="view-all-btn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/>
+                        <path d="M9 18c-4.51 2-5-2-7-2"/>
+                    </svg>
+                    <span>View All Projects on GitHub</span>
+                </a>
+            </div>
+        </div>
+    </section>
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <svg class="spider-web bottom-left" viewBox="0 0 200 200" fill="none">
+            <line x1="0" y1="0" x2="200" y2="0" stroke="currentColor" stroke-width="1"/>
+            <line x1="0" y1="0" x2="173" y2="100" stroke="currentColor" stroke-width="1"/>
+            <line x1="0" y1="0" x2="100" y2="173" stroke="currentColor" stroke-width="1"/>
+            <line x1="0" y1="0" x2="0" y2="200" stroke="currentColor" stroke-width="1"/>
+            <path d="M 0 40 Q 24 24 40 0" stroke="currentColor" stroke-width="1" fill="none"/>
+            <path d="M 0 80 Q 48 48 80 0" stroke="currentColor" stroke-width="1" fill="none"/>
+            <path d="M 0 120 Q 72 72 120 0" stroke="currentColor" stroke-width="1" fill="none"/>
+            <path d="M 0 160 Q 96 96 160 0" stroke="currentColor" stroke-width="1" fill="none"/>
+        </svg>
+        <svg class="spider-web bottom-right" viewBox="0 0 200 200" fill="none">
+            <line x1="0" y1="0" x2="200" y2="0" stroke="currentColor" stroke-width="1"/>
+            <line x1="0" y1="0" x2="173" y2="100" stroke="currentColor" stroke-width="1"/>
+            <line x1="0" y1="0" x2="100" y2="173" stroke="currentColor" stroke-width="1"/>
+            <line x1="0" y1="0" x2="0" y2="200" stroke="currentColor" stroke-width="1"/>
+            <path d="M 0 40 Q 24 24 40 0" stroke="currentColor" stroke-width="1" fill="none"/>
+            <path d="M 0 80 Q 48 48 80 0" stroke="currentColor" stroke-width="1" fill="none"/>
+            <path d="M 0 120 Q 72 72 120 0" stroke="currentColor" stroke-width="1" fill="none"/>
+            <path d="M 0 160 Q 96 96 160 0" stroke="currentColor" stroke-width="1" fill="none"/>
+        </svg>
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Get In Touch</h2>
+                <p>Ready to collaborate? Let's connect and build something amazing together!</p>
+            </div>
+            <div class="contact-card">
+                <div class="contact-grid">
+                    <a href="mailto:shaikhali88123@gmail.com" class="contact-item">
+                        <div class="contact-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect width="20" height="16" x="2" y="4" rx="2"/>
+                                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="contact-label">Email</p>
+                            <p class="contact-value">shaikhali88123@gmail.com</p>
+                        </div>
+                    </a>
+                    <a href="tel:8378986244" class="contact-item">
+                        <div class="contact-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="contact-label">Phone</p>
+                            <p class="contact-value">+91 8378986244</p>
+                        </div>
+                    </a>
+                    <a href="https://www.linkedin.com/in/ali-shaikh-polymath/" target="_blank" rel="noopener noreferrer" class="contact-item">
+                        <div class="contact-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+                                <rect width="4" height="12" x="2" y="9"/>
+                                <circle cx="4" cy="4" r="2"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="contact-label">LinkedIn</p>
+                            <p class="contact-value">Ali Shaikh</p>
+                        </div>
+                    </a>
+                    <a href="https://github.com/Alishaikh-dev" target="_blank" rel="noopener noreferrer" class="contact-item">
+                        <div class="contact-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/>
+                                <path d="M9 18c-4.51 2-5-2-7-2"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="contact-label">GitHub</p>
+                            <p class="contact-value">@Alishaikh-dev</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="contact-location">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
+                        <circle cx="12" cy="10" r="3"/>
+                    </svg>
+                    <span>Pune, Maharashtra, India</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>
+                © 2024 <a href="#">Ali Shaikh</a>. Made with <span class="heart">❤️</span> and 🕷️ webs
+            </p>
+        </div>
+    </footer>
+    <script>
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navLinks = document.getElementById('navLinks');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            mobileMenuBtn.textContent = navLinks.classList.contains('active') ? '✕' : '☰';
+        });
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                mobileMenuBtn.textContent = '☰';
+            });
+        });
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        // Observe all cards and sections for scroll animations
+        document.querySelectorAll('.skill-card, .timeline-content, .project-card, .contact-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
